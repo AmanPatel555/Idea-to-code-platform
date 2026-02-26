@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-4">
+    <!-- Header - Centered -->
+    <div class="text-center mb-5">
+        <h2 style="font-weight: 700; color: #1e293b; margin-bottom: 0.5rem; display: inline-block; position: relative;">
+            Your Dashboard 📊
+            <span style="position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: linear-gradient(135deg, #2563eb, #7c3aed); border-radius: 2px;"></span>
+        </h2>
+        <p style="color: #64748b; margin-top: 1rem;">Track your projects and collaboration activity</p>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="row mb-5">
+        <div class="col-md-4 mb-3">
+            <div style="background: white; border-radius: 20px; padding: 2rem; text-align: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #eef2f6; height: 100%;">
+                <div style="width: 60px; height: 60px; background: #e6f0ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                    <span style="font-size: 1.8rem;">🧑‍💻</span>
+                </div>
+                <h6 style="color: #64748b; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 0.5rem;">PROJECTS CREATED</h6>
+                <h2 style="color: #2563eb; font-size: 2.5rem; font-weight: 800;">{{ created_projects.count }}</h2>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-3">
+            <div style="background: white; border-radius: 20px; padding: 2rem; text-align: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #eef2f6; height: 100%;">
+                <div style="width: 60px; height: 60px; background: #e6f7ee; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                    <span style="font-size: 1.8rem;">👥</span>
+                </div>
+                <h6 style="color: #64748b; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 0.5rem;">PROJECTS JOINED</h6>
+                <h2 style="color: #10b981; font-size: 2.5rem; font-weight: 800;">{{ joined_projects.count }}</h2>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-3">
+            <div style="background: white; border-radius: 20px; padding: 2rem; text-align: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #eef2f6; height: 100%;">
+                <div style="width: 60px; height: 60px; background: #fff3cd; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                    <span style="font-size: 1.8rem;">⏳</span>
+                </div>
+                <h6 style="color: #64748b; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 0.5rem;">PENDING REQUESTS</h6>
+                <h2 style="color: #f59e0b; font-size: 2.5rem; font-weight: 800;">{{ pending_requests.count }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Created Projects -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 style="font-weight: 700; color: #1e293b;">📌 Your Created Projects</h4>
+        <a href="{% url 'create_project' %}" 
+           style="display: inline-block; padding: 0.4rem 1.2rem; background: linear-gradient(135deg, #2563eb, #7c3aed); color: white; border-radius: 30px; text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: all 0.3s ease;">
+            + New Project
+        </a>
+    </div>
+    
+    <div class="row mb-5">
+        {% for project in created_projects %}
+        <div class="col-md-4 mb-3">
+            <div class="project-card" style="background: white; border-radius: 20px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #eef2f6; height: 100%; transition: all 0.3s ease;">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span style="background: #e6f0ff; color: #2563eb; padding: 0.25rem 1rem; border-radius: 30px; font-size: 0.7rem; font-weight: 600;">👑 Owner</span>
+                    <small style="color: #94a3b8;">{{ project.created_at|date:"M d, Y" }}</small>
+                </div>
+                <h5 style="font-weight: 700; color: #0f172a; margin-bottom: 0.5rem;">{{ project.title }}</h5>
+                <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 0.75rem;">{{ project.description|truncatechars:80 }}</p>
+                {% if project.tech_stack %}
+                <span style="display: inline-block; background: #f1f5f9; color: #475569; padding: 0.2rem 1rem; border-radius: 30px; font-size: 0.7rem; font-weight: 500; margin-bottom: 1rem;">{{ project.tech_stack }}</span>
+                {% endif %}
+                <p style="color: #64748b; font-size: 0.8rem;">👥 {{ project.members.count }} members</p>
+                <a href="{% url 'project_detail' project.id %}" 
+                   class="view-btn" 
+                   style="display: block; text-align: center; padding: 0.4rem; border: 1px solid #2563eb; color: #2563eb; border-radius: 30px; text-decoration: none; font-weight: 500; font-size: 0.85rem; transition: all 0.3s ease;">
+                    View Project →
+                </a>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div style="text-align: center; padding: 3rem; background: #f8fafc; border-radius: 20px; border: 2px dashed #cbd5e1;">
+                <span style="font-size: 3rem; display: block; margin-bottom: 1rem;">📭</span>
+                <p style="color: #64748b; margin-bottom: 1rem;">No projects created yet</p>
+                <a href="{% url 'create_project' %}" style="display: inline-block; padding: 0.5rem 2rem; background: linear-gradient(135deg, #2563eb, #7c3aed); color: white; border-radius: 30px; text-decoration: none;">Create Project 🧑‍💻</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Joined Projects -->
+    <h4 style="font-weight: 700; color: #1e293b; margin-bottom: 1rem;">🤝 Projects You've Joined</h4>
+    
+    <div class="row">
+        {% for project in joined_projects %}
+        <div class="col-md-4 mb-3">
+            <div class="project-card" style="background: white; border-radius: 20px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #eef2f6; height: 100%; transition: all 0.3s ease;">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span style="background: #e6f7ee; color: #10b981; padding: 0.25rem 1rem; border-radius: 30px; font-size: 0.7rem; font-weight: 600;">✅ Member</span>
+                    <small style="color: #94a3b8;">by {{ project.creator.username }}</small>
+                </div>
+                <h5 style="font-weight: 700; color: #0f172a; margin-bottom: 0.5rem;">{{ project.title }}</h5>
+                <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 0.75rem;">{{ project.description|truncatechars:80 }}</p>
+                {% if project.tech_stack %}
+                <span style="display: inline-block; background: #f1f5f9; color: #475569; padding: 0.2rem 1rem; border-radius: 30px; font-size: 0.7rem; font-weight: 500; margin-bottom: 1rem;">{{ project.tech_stack }}</span>
+                {% endif %}
+                <p style="color: #64748b; font-size: 0.8rem;">👥 {{ project.members.count }} members</p>
+                <a href="{% url 'project_detail' project.id %}" 
+                   class="view-btn" 
+                   style="display: block; text-align: center; padding: 0.4rem; border: 1px solid #10b981; color: #10b981; border-radius: 30px; text-decoration: none; font-weight: 500; font-size: 0.85rem; transition: all 0.3s ease;">
+                    View Project →
+                </a>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div style="text-align: center; padding: 3rem; background: #f8fafc; border-radius: 20px; border: 2px dashed #cbd5e1;">
+                <span style="font-size: 3rem; display: block; margin-bottom: 1rem;">🔍</span>
+                <p style="color: #64748b; margin-bottom: 1rem;">No projects joined yet</p>
+                <a href="{% url 'project_list' %}" style="display: inline-block; padding: 0.5rem 2rem; background: linear-gradient(135deg, #2563eb, #7c3aed); color: white; border-radius: 30px; text-decoration: none;">Explore Projects</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Hover Effects - Fixed (no empty rulesets) -->
+<style>
+    .project-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 25px -5px rgba(37,99,235,0.1) !important;
+        border-color: #2563eb !important;
+    }
+    
+    .project-card .view-btn:hover {
+        background: #2563eb !important;
+        color: white !important;
+        border-color: #2563eb !important;
+    }
+    
+    .project-card .view-btn[style*="10b981"]:hover {
+        background: #10b981 !important;
+        color: white !important;
+        border-color: #10b981 !important;
+    }
+    
+    a[href*="create_project"]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px -5px rgba(37,99,235,0.3);
+    }
+</style>
+
+{% endblock %}

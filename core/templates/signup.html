@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card border-0 rounded-4 p-4" style="max-width: 450px; width: 100%; background: white; box-shadow: 0 20px 40px rgba(0,0,0,0.05);">
+        <!-- Header with icon -->
+        <div class="text-center mb-4">
+            <div class="fs-1 mb-2">✨</div>
+            <h3 class="fw-bold mb-1">Create Account</h3>
+            <p class="text-secondary small">Join the community and start building</p>
+        </div>
+
+        <!-- Form -->
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- Username field -->
+            <div class="mb-3">
+                <label class="form-label small fw-semibold text-secondary mb-1">Username</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-0">
+                        <span class="small">👤</span>
+                    </span>
+                    <input type="text" name="username" 
+                           class="form-control border-0 bg-light py-2"
+                           placeholder="Choose a username"
+                           style="font-size: 0.95rem;"
+                           required>
+                </div>
+            </div>
+
+            <!-- Email field -->
+            <div class="mb-3">
+                <label class="form-label small fw-semibold text-secondary mb-1">Email</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-0">
+                        <span class="small">📧</span>
+                    </span>
+                    <input type="email" name="email" 
+                           class="form-control border-0 bg-light py-2"
+                           placeholder="your@email.com"
+                           style="font-size: 0.95rem;"
+                           required>
+                </div>
+            </div>
+
+            <!-- Password field -->
+            <div class="mb-3">
+                <label class="form-label small fw-semibold text-secondary mb-1">Password</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-0">
+                        <span class="small">🔒</span>
+                    </span>
+                    <input type="password" name="password" 
+                           class="form-control border-0 bg-light py-2"
+                           placeholder="Create a password"
+                           style="font-size: 0.95rem;"
+                           required>
+                </div>
+                <small class="text-secondary d-block mt-1 small">Minimum 8 characters</small>
+            </div>
+
+            <!-- Error messages -->
+            {% if form.errors %}
+            <div class="alert alert-danger py-2 small">
+                ⚠️ Please correct the errors below.
+            </div>
+            {% endif %}
+
+            <!-- Submit button with fixed hover -->
+            <button type="submit" 
+                    class="w-100 py-2 mb-3 fw-semibold" 
+                    style="background: linear-gradient(135deg, #2563eb, #7c3aed); color: white; border: none; border-radius: 12px; font-size: 1rem; cursor: pointer; transition: all 0.3s ease;">
+                👤 Create Account
+            </button>
+
+            <!-- Login link -->
+            <div class="text-center">
+                <p class="text-secondary small mb-0">
+                    Already have an account? 
+                    <a href="{% url 'login' %}" class="text-primary fw-semibold text-decoration-none">
+                        Sign in →
+                    </a>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Add hover effect with style tag -->
+<style>
+    button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px -5px rgba(37,99,235,0.3);
+    }
+</style>
+
+{% endblock %}

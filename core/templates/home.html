@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<div class="hero-section">
+    <h1 class="fw-bold">Where Ideas Become Code</h1>
+    
+    <p class="lead">
+        Collaborate with developers worldwide. Build real projects. Ship production-ready code.
+    </p>
+    
+    <div class="hero-buttons">
+        <a href="/projects/" class="btn btn-light">
+            🔍 Explore Projects
+        </a>
+
+        {% if not user.is_authenticated %}
+        <a href="/signup/" class="btn btn-outline-light">
+            🧑‍💻 Start Building
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- How It Works Section -->
+<div class="mt-5 pt-5">
+    <h2 class="text-center fw-bold mb-5">How It Works</h2>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="text-center">
+                <div class="display-1 mb-3">1️⃣</div>
+                <h4 class="fw-bold mb-3">Post Your Idea</h4>
+                <p class="text-secondary">Share your project concept, tech stack, and what you're looking to build.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="text-center">
+                <div class="display-1 mb-3">2️⃣</div>
+                <h4 class="fw-bold mb-3">Find Collaborators</h4>
+                <p class="text-secondary">Developers join your project. Review their skills and GitHub profile.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="text-center">
+                <div class="display-1 mb-3">3️⃣</div>
+                <h4 class="fw-bold mb-3">Build & Ship</h4>
+                <p class="text-secondary">Work together, create PRs, track issues, and ship real code.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action -->
+<div class="text-center mt-5 pt-4 pb-5">
+    <div class="p-5 bg-light rounded-4">
+        <h3 class="fw-bold mb-3">Ready to bring your ideas to life?</h3>
+        <p class="text-secondary mb-4">Join thousands of developers collaborating on real projects.</p>
+        {% if not user.is_authenticated %}
+        <a href="/signup/" class="btn btn-primary btn-lg px-5">
+            Get Started Now →
+        </a>
+        {% else %}
+        <a href="/create-project/" class="btn btn-primary btn-lg px-5">
+            Create Your First Project →
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

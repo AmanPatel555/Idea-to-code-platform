@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-4">
+    <!-- Header -->
+    <div class="text-center mb-5">
+        <h2 style="font-weight: 700; color: #1e293b; margin-bottom: 0.5rem;">Explore Projects</h2>
+        <p style="color: #64748b;">Discover amazing projects and join the collaboration 🧑‍💻</p>
+    </div>
+
+    <!-- Filter Chips -->
+    <div class="d-flex flex-wrap gap-2 mb-5 justify-content-center">
+        <span style="padding: 0.5rem 1.5rem; border-radius: 30px; background: linear-gradient(135deg, #2563eb, #7c3aed); color: white; font-weight: 500; cursor: pointer;">All</span>
+        <span style="padding: 0.5rem 1.5rem; border-radius: 30px; background: #f1f5f9; color: #475569; font-weight: 500; cursor: pointer;">Most Recent</span>
+        <span style="padding: 0.5rem 1.5rem; border-radius: 30px; background: #f1f5f9; color: #475569; font-weight: 500; cursor: pointer;">Most Members</span>
+        <span style="padding: 0.5rem 1.5rem; border-radius: 30px; background: #f1f5f9; color: #475569; font-weight: 500; cursor: pointer;">Trending 🔥</span>
+    </div>
+
+    <!-- Projects Grid -->
+    <div class="row g-4">
+        {% for project in projects %}
+        <div class="col-md-6 col-lg-4">
+            <div class="project-card" style="background: white; border-radius: 24px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #eef2f6; transition: all 0.3s ease; height: 100%; display: flex; flex-direction: column;">
+                
+                <!-- Project Header -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span style="background: #e6f7ee; color: #10b981; padding: 0.25rem 1rem; border-radius: 30px; font-size: 0.75rem; font-weight: 600;">🟢 Active</span>
+                    <span style="color: #94a3b8; font-size: 0.75rem;">{{ project.created_at|date:"M d, Y" }}</span>
+                </div>
+                
+                <!-- Project Title -->
+                <h4 style="font-weight: 700; color: #0f172a; margin-bottom: 0.75rem;">{{ project.title }}</h4>
+                
+                <!-- Project Description -->
+                <p style="color: #64748b; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem; flex: 1;">{{ project.description|truncatechars:100 }}</p>
+                
+                <!-- Tech Stack -->
+                {% if project.tech_stack %}
+                <div class="mb-3">
+                    <span style="display: inline-block; background: #eef2ff; color: #2563eb; padding: 0.25rem 1rem; border-radius: 30px; font-size: 0.75rem; font-weight: 500;">{{ project.tech_stack }}</span>
+                </div>
+                {% endif %}
+                
+                <!-- Creator and Members -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                        <span style="width: 24px; height: 24px; background: #eef2ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; margin-right: 0.5rem;">👤</span>
+                        <span style="color: #475569; font-size: 0.85rem; font-weight: 500;">{{ project.creator.username }}</span>
+                    </div>
+                    <span style="color: #64748b; font-size: 0.8rem;">👥 {{ project.members.count }} member{{ project.members.count|pluralize }}</span>
+                </div>
+                
+                <!-- View Button -->
+                <a href="{% url 'project_detail' project.id %}" 
+                   class="text-center" 
+                   style="display: block; padding: 0.6rem; background: transparent; border: 2px solid #2563eb; color: #2563eb; border-radius: 12px; font-weight: 600; font-size: 0.9rem; text-decoration: none; transition: all 0.3s ease;">
+                    View Project →
+                </a>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div style="text-align: center; padding: 4rem; background: #f8fafc; border-radius: 30px; border: 2px dashed #cbd5e1;">
+                <span style="font-size: 4rem; display: block; margin-bottom: 1rem;">📭</span>
+                <h4 style="font-weight: 700; color: #1e293b; margin-bottom: 0.5rem;">No Projects Yet</h4>
+                <p style="color: #64748b; margin-bottom: 1.5rem;">Be the first to create a project!</p>
+                <a href="{% url 'create_project' %}" style="display: inline-block; padding: 0.75rem 2rem; background: linear-gradient(135deg, #2563eb, #7c3aed); color: white; border-radius: 12px; text-decoration: none; font-weight: 600;">Create Project 🚀</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Hover Effects -->
+<style>
+    .project-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 25px -5px rgba(37,99,235,0.1) !important;
+        border-color: #2563eb !important;
+    }
+    
+    .project-card a:hover {
+        background: #2563eb !important;
+        color: white !important;
+    }
+    
+    .filter-chip:hover {
+        background: #e2e8f0 !important;
+    }
+</style>
+
+{% endblock %}

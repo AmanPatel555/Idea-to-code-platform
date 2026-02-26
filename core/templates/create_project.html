@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card border-0 rounded-4 p-4 p-md-5" style="max-width: 600px; width: 100%; background: white; box-shadow: 0 20px 40px rgba(0,0,0,0.05);">
+        
+        <!-- Header with icon -->
+        <div class="text-center mb-4">
+            <div class="fs-1 mb-2">🧑‍💻</div>
+            <h3 class="fw-bold mb-1">Create New Project</h3>
+            <p class="text-secondary small">Share your idea and start collaborating</p>
+        </div>
+
+        <!-- Form -->
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- Project Title -->
+            <div class="mb-4">
+                <label class="form-label fw-semibold text-secondary mb-2">
+                    <span>📌</span> Project Title
+                </label>
+                <input type="text" name="title" 
+                       class="form-control form-control-lg border-0 bg-light py-3"
+                       placeholder="e.g. AI-Powered Task Manager"
+                       style="font-size: 1rem; border-radius: 12px;"
+                       required>
+                <small class="text-secondary">Choose a clear, descriptive title</small>
+            </div>
+
+            <!-- Project Description -->
+            <div class="mb-4">
+                <label class="form-label fw-semibold text-secondary mb-2">
+                    <span>📝</span> Description
+                </label>
+                <textarea name="description"
+                          class="form-control border-0 bg-light py-3"
+                          placeholder="Describe your project idea, goals, and what you're looking for in collaborators..."
+                          rows="5"
+                          style="font-size: 1rem; border-radius: 12px; resize: vertical;"
+                          required></textarea>
+                <small class="text-secondary">Be detailed to attract the right collaborators</small>
+            </div>
+
+            <!-- Tech Stack -->
+            <div class="mb-4">
+                <label class="form-label fw-semibold text-secondary mb-2">
+                    <span>⚙️</span> Tech Stack
+                </label>
+                <input type="text" name="tech_stack" 
+                       class="form-control form-control-lg border-0 bg-light py-3"
+                       placeholder="e.g. Python, Django, React, PostgreSQL"
+                       style="font-size: 1rem; border-radius: 12px;">
+                <small class="text-secondary">Separate with commas (e.g. Django, React, MongoDB)</small>
+            </div>
+
+            <!-- Form Errors -->
+            {% if form.errors %}
+            <div class="alert alert-danger py-3 mb-4">
+                <div class="d-flex align-items-center">
+                    <span class="me-2">⚠️</span>
+                    <div>
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <small class="d-block">{{ error }}</small>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Submit Button -->
+            <button class="btn btn-primary w-100 py-3 mb-3 fw-semibold" 
+                    style="background: linear-gradient(135deg, #2563eb, #7c3aed); border: none; border-radius: 12px; font-size: 1.1rem;">
+                <span>✨</span> Create Project <span>→</span>
+            </button>
+
+            <!-- Cancel Link -->
+            <div class="text-center">
+                <a href="{% url 'project_list' %}" class="text-secondary text-decoration-none small">
+                    Cancel and go back
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Add this to your style.css later -->
+<style>
+    /* Optional: Add focus effects */
+    .form-control:focus {
+        box-shadow: 0 0 0 3px rgba(37,99,235,0.1) !important;
+        background: #ffffff !important;
+        border-color: transparent !important;
+    }
+    
+    /* Placeholder styling */
+    .form-control::placeholder {
+        color: #a0aec0;
+        font-size: 0.95rem;
+    }
+    
+    /* Input group styling if needed */
+    .input-group-text {
+        background: #f1f5f9;
+        border: none;
+        padding: 0 1rem;
+    }
+</style>
+
+{% endblock %}
