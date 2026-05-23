@@ -35,5 +35,6 @@ A collaborative web platform built using Django that allows developers to:
 4. Run migrations
 5. Run server
 
+GitHub Actions fixed.
 
 ~~ git bash
