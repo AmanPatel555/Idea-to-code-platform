@@ -12,10 +12,12 @@ A collaborative web platform built using Django that allows developers to:
 ## Tech Stack
 
 - Django
+- JavaScript
 - Bootstrap
-- SQLite
+- PostgreSQL
 - HTML/CSS
 - Git
+- Docker
 
 ## Features
 
